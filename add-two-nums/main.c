@@ -11,100 +11,110 @@ struct ListNode {
 
 ListNode* addTwoNums(ListNode* l1, ListNode* l2){
   ListNode *temp = new ListNode;
-  ListNode *r = temp;
+  ListNode *firstNode = temp;
   temp->val = 0;
-  int value = 0;
   
-  //std::cout << l1->val << std::endl;
-  //std::cout << l2->val << std::endl << std::endl;
-  
+  //while we haven't reached the last node
   while(l1 != nullptr){
+    //if there's a l2 value still, add l1 + l2 + temp val(carried)
     if(l2 != nullptr){
       temp->val = temp->val + l1->val + l2->val;
+      //advance l2
       l2 = l2->next;
     }
-    else
+    else //if there's no l2 value, set temp node value to l1 value
       temp->val += l1->val;
     
+    
+    //if the added amount is greater than 10
     if(temp->val >= 10){
+      //divide the value up
       int tens = (temp->val / 10) % 10;
       int ones = temp->val % 10;
-      std::cout << "temp->value = " << temp->val << "\ntens: " << tens << "\nones: " << ones << std::endl;
-      value = 0;
       
+      //create next node to carry tens value into
       temp->next = new ListNode(tens);
-      //temp->next->val += tens;
+      //set current node's value to single digit
       temp->val = ones;
-      
-      std::cout << "temp->value = " << temp->val << "\ntemp->next->val: " << temp->next->val << std::endl << std::endl;
-      
-//       //make sure the next node is available, otherwise make one
-//       if(l1->next != nullptr){
-//         l1->next->val += tens;
-//         //l1->val = value % 10;
-//         //temp->val = tens;
-//       }
-//       else{
-//         ListNode temp2(tens);
-//         l1->next = &temp2;
-//         l1->next->val += tens;
-//       }
-//       l1->val = value % 10;
-//       //std::cout << "value = " << value << std::endl;
-//       value = 0;
     }
+    else if(temp->val < 10 && l1->next != nullptr)
+      temp->next = new ListNode(0);
     
-    //std::cout << "l1->val = " << l1->val << std::endl;
+    //advance temp node and l1
     temp = temp->next;
     l1 = l1->next;
   }
   
-  
-  return r;
+  return firstNode;
 };
 
-int main(){
-//   ListNode l1d(8);
-//   ListNode l1c(3, &l1d);
-//   ListNode l1b(4, &l1c);  
-//   ListNode l1a(2, &l1b);
-//   
-//   ListNode l2c(4);
-//   ListNode l2b(6, &l2c);  
-//   ListNode l2a(5, &l2b);
-  
-  ListNode l1g(9);
-  ListNode l1f(9, &l1g);
-  ListNode l1e(9, &l1f);
-  ListNode l1d(9, &l1e);
-  ListNode l1c(9, &l1d);
-  ListNode l1b(9, &l1c);  
-  ListNode l1a(9, &l1b);
-  
-  ListNode l2d(9);
-  ListNode l2c(9, &l2d);
-  ListNode l2b(9, &l2c);  
-  ListNode l2a(9, &l2b);
-  
-  
-  //temporary listnode for traversal
-  ListNode* temp = &l1a;
-  
-  
-  while(temp != nullptr){
-    std::cout << temp->val << std::endl;
-    
-    //advance pointer along list
-    temp = temp->next;
-  }
-  
-  ListNode* x = addTwoNums(&l1a, &l2a);
+void outputSingleList(ListNode* x){
   while(x != nullptr){
     std::cout << x->val << " ";
     
     //advance pointer along list
     x = x->next;
   }
-  std::cout << std::endl;
+  std::cout << std::endl << std::endl;
+}
+
+ListNode *createList(int x[], size_t l)
+{
+  ListNode *list = new ListNode;
+  ListNode *firstNode = list;
+  
+  //std::cout << l << std::endl << std::endl;
+  for(size_t i = 0; i < l; i++){
+    list->val = x[i];
+    
+    //only make a new node if i is less than length - 1
+    if(i < l - 1)
+      list->next = new ListNode();
+    
+    //iterate list
+    list = list->next;
+  }
+  return firstNode;
+}
+
+int main(){
+  //Example 1
+  int list1a[] = {2, 4, 3};
+  size_t s = sizeof(list1a) / sizeof(list1a[0]);
+  ListNode *l1 = createList(list1a, s);
+  
+  int list1b[] = {5, 6, 4};
+  s = sizeof(list1b) / sizeof(list1b[0]);
+  ListNode *l2 = createList(list1b, s);
+  
+  ListNode* x = addTwoNums(l1, l2);
+  outputSingleList(x);
+  
+  
+  //Example 2
+  int list2a[] = {0};
+  s = sizeof(list2a) / sizeof(list2a[0]);
+  ListNode *l3 = createList(list2a, s);
+  
+  int list2b[] = {0};
+  s = sizeof(list2b) / sizeof(list2b[0]);
+  ListNode *l4 = createList(list2b, s);
+  
+  ListNode* y = addTwoNums(l3, l4);
+  outputSingleList(y);
+  
+  
+  //Example 3
+  int list3a[] = {9, 9, 9, 9, 9, 9, 9};
+  s = sizeof(list3a) / sizeof(list3a[0]);
+  ListNode *l5 = createList(list3a, s);
+  
+  int list3b[] = {9, 9, 9, 9};
+  s = sizeof(list3b) / sizeof(list3b[0]);
+  ListNode *l6 = createList(list3b, s);
+  
+  ListNode* z = addTwoNums(l5, l6);
+  outputSingleList(z);
+  
   return 0;
 }

@@ -14,7 +14,7 @@ std::vector<int> twoSumMap(std::vector<int>& nums, const int& target){
   bool numFound = false;
   
   //loop over array once
-  for(int i = 0; i < nums.size(); i++){
+  for(unsigned int i = 0; i < nums.size(); i++){
     
     //first element/nothing to check against
     if(i == 0){
@@ -52,12 +52,12 @@ std::vector<int> twoSumMap(std::vector<int>& nums, const int& target){
 
 std::vector<int> twoSum(std::vector<int>& nums, const int& target){
   
-  for(int i = 0; i < nums.size(); i++){
+  for(unsigned int i = 0; i < nums.size(); i++){
     std::cout << nums.at(i) << std::endl;
     
     int addition = nums.at(i);
     
-    for(int j = 0; j < nums.size(); j++){
+    for(unsigned int j = 0; j < nums.size(); j++){
       if(nums.at(i) != nums.at(j)){
         addition = nums.at(i) + nums.at(j);
         std::cout << "Added " << nums.at(i) << " + " << nums.at(j) << ": " << addition << std::endl;
